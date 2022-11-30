@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "FormulaLexer.h"
 #include "common.h"
@@ -6,6 +6,10 @@
 #include <forward_list>
 #include <functional>
 #include <stdexcept>
+
+// лямбда-функция поиска ячейки по позиции в таблице
+// возвращает результат в double если ячейка существует и нормально считается
+using CellFinder = std::function<double(Position)>;
 
 namespace ASTImpl {
 class Expr;
@@ -23,25 +27,18 @@ public:
     FormulaAST& operator=(FormulaAST&&) = default;
     ~FormulaAST();
 
-    double Execute(/*добавьте нужные аргументы*/ args) const;
-    void PrintCells(std::ostream& out) const;
-    void Print(std::ostream& out) const;
-    void PrintFormula(std::ostream& out) const;
-
-    std::forward_list<Position>& GetCells() {
-        return cells_;
-    }
-
-    const std::forward_list<Position>& GetCells() const {
-        return cells_;
-    }
+    // в экзекут передается лямбда поиска и применяется по необходимости 
+    // если ячейка имеет в себе ссылки, для обычной строки надобности в поисковике нет
+    double Execute(CellFinder [[maybe_unused]]finder) const;
+    void PrintReferenceCells(std::ostream& out) const;                     // печать листа ячеек
+    void Print(std::ostream& out) const;                                   // обычная печать
+    void PrintFormula(std::ostream& out) const;                            // печать формулы
+    bool HasDepends() const;                                               // возвращает флаг того, что есть вектор зависимостей
+    std::forward_list<Position> GetReferenceList() ;                       // возвращает вектор позиций ссылок
+    const std::forward_list<Position>& GetReferenceList() const;           // возвращает вектор позиций ссылок
 
 private:
     std::unique_ptr<ASTImpl::Expr> root_expr_;
-
-    // physically stores cells so that they can be
-    // efficiently traversed without going through
-    // the whole AST
     std::forward_list<Position> cells_;
 };
 

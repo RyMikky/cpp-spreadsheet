@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <map>
 #include <set>
 #include <sstream>
@@ -8,19 +8,19 @@
 #include <vector>
 
 namespace TestRunnerPrivate {
-template <typename K, typename V, template <typename, typename> class Map>
-std::ostream& PrintMap(std::ostream& os, const Map<K, V>& m) {
-    os << "{";
-    bool first = true;
-    for (const auto& kv : m) {
-        if (!first) {
-            os << ", ";
+    template <typename K, typename V, template <typename, typename> class Map>
+    std::ostream& PrintMap(std::ostream& os, const Map<K, V>& m) {
+        os << "{";
+        bool first = true;
+        for (const auto& kv : m) {
+            if (!first) {
+                os << ", ";
+            }
+            first = false;
+            os << kv.first << ": " << kv.second;
         }
-        first = false;
-        os << kv.first << ": " << kv.second;
+        return os << "}";
     }
-    return os << "}";
-}
 }  // namespace TestRunnerPrivate
 
 template <class T>
@@ -84,10 +84,12 @@ public:
         try {
             func();
             std::cerr << test_name << " OK" << std::endl;
-        } catch (std::exception& e) {
+        }
+        catch (std::exception& e) {
             ++fail_count;
             std::cerr << test_name << " fail: " << e.what() << std::endl;
-        } catch (...) {
+        }
+        catch (...) {
             ++fail_count;
             std::cerr << "Unknown exception caught" << std::endl;
         }
@@ -123,4 +125,4 @@ private:
         Assert(x, __assert_private_os.str());                                       \
     }
 
-#define RUN_TEST(tr, func) tr.RunTest(func, #func)
+#define RUN_TEST(tr, func) tr.RunTest(func, #func) 

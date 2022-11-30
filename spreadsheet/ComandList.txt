@@ -1,0 +1,11 @@
+Установка ATLNR и парсинг Formula.g4
+
+1) Установить свежую версию python
+2) Обновить питон, если нужно
+    << python.exe -m pip install --upgrade pip
+3) Установить Java Runtime, например версии 19!
+4) Установить ATLNR-Tools
+    << pip install antlr4-tools
+5) Сделать парсинг под Cpp
+    << antlr4 -Dlanguage=Cpp Formula.g4
+    (он сам скачает antlr4-4.11.1-complete.jar или более новый)
