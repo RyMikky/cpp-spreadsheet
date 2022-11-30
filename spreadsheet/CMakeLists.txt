@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+﻿cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(spreadsheet)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -13,7 +13,6 @@ else()
     "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -Werror -Wno-unused-parameter -Wno-implicit-fallthrough"
   )
 endif()
-
 
 set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/antlr-4.7.2-complete.jar)
 include(${CMAKE_CURRENT_SOURCE_DIR}/FindANTLR.cmake)
@@ -53,4 +52,4 @@ install(
   EXPORT spreadsheet
 )
 
-set_directory_properties(PROPERTIES VS_STARTUP_PROJECT spreadsheet)
+set_directory_properties(PROPERTIES VS_STARTUP_PROJECT spreadsheet) 
